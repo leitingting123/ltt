@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>林间笔记 | 个人技术博客</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Font Awesome 图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入 Google 字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- 自定义 Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#4f46e5',
+                        accent: '#8b5cf6',
+                        dark: '#1e293b',
+                        light: '#f8fafc'
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'system-ui', 'sans-serif'],
+                        poppins: ['Poppins', 'sans-serif']
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .blog-card {
+                @apply bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden;
+            }
+            .nav-link {
+                @apply text-gray-600 hover:text-primary transition-colors duration-200 font-medium;
+            }
+            .btn-primary {
+                @apply bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors duration-200 flex items-center gap-2;
+            }
+            .btn-outline {
+                @apply border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:border-primary hover:text-primary transition-colors duration-200 flex items-center gap-2;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-dark">
+    <!-- 顶部导航栏 -->
+    <header class="sticky top-0 z-50 bg-white shadow-sm">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <!-- 博客LOGO -->
+                <a href="#" class="flex items-center gap-2">
+                    <span class="text-primary text-2xl"><i class="fas fa-feather-alt"></i></span>
+                    <span class="text-xl font-bold">林间笔记</span>
+                </a>
+                
+                <!-- 桌面端导航 -->
+                <nav class="hidden md:flex items-center gap-6">
+                    <a href="#" class="nav-link text-primary">首页</a>
+                    <a href="#articles" class="nav-link">文章</a>
+                    <a href="#categories" class="nav-link">分类</a>
+                    <a href="#about" class="nav-link">关于我</a>
+                    <a href="#contact" class="nav-link">联系我</a>
+                </nav>
+                
+                <!-- 搜索和移动端菜单按钮 -->
+                <div class="flex items-center gap-4">
+                    <button class="text-gray-600 hover:text-primary transition-colors">
+                        <i class="fas fa-search text-lg"></i>
+                    </button>
+                    <button class="md:hidden text-gray-600 hover:text-primary transition-colors" id="mobile-menu-btn">
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 移动端导航菜单 -->
+        <div class="md:hidden hidden bg-white border-t" id="mobile-menu">
+            <div class="container mx-auto px-4 py-3 flex flex-col gap-3">
+                <a href="#" class="py-2 nav-link text-primary">首页</a>
+                <a href="#articles" class="py-2 nav-link">文章</a>
+                <a href="#categories" class="py-2 nav-link">分类</a>
+                <a href="#about" class="py-2 nav-link">关于我</a>
+                <a href="#contact" class="py-2 nav-link">联系我</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 博客头部横幅 -->
+    <section class="bg-gradient-to-r from-primary to-accent text-white py-16 md:py-24">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="max-w-3xl">
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+                    探索技术与生活的边界
+                </h1>
+                <p class="text-lg md:text-xl text-white/90 mb-8">
+                    记录成长，分享思考，在代码与文字间寻找平衡
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#articles" class="btn-primary">
+                        <i class="fas fa-book-open"></i>
+                        阅读文章
+                    </a>
+                    <a href="#about" class="btn-outline text-white border-white/30 hover:border-white hover:text-white">
+                        <i class="fas fa-user"></i>
+                        了解博主
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container mx-auto px-4 md:px-6 py-10">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- 主内容区 -->
+            <div class="lg:w-3/4">
+                <!-- 最新文章 -->
+                <section id="articles" class="mb-12">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold">最新文章</h2>
+                        <a href="#" class="text-primary hover:text-primary/80 flex items-center gap-1">
+                            查看全部 <i class="fas fa-chevron-right text-xs"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- 文章列表 -->
+                    <div class="grid grid-cols-1 gap-6">
+                        <!-- 置顶文章 -->
+                        <article class="blog-card">
+                            <div class="md:flex">
+                                <div class="md:w-2/5">
+                                    <img src="https://picsum.photos/800/500?random=1" alt="前端工程化实践" class="w-full h-60 md:h-full object-cover">
+                                </div>
+                                <div class="p-6 md:w-3/5">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class="bg-red-500 text-white text-xs px-2 py-1 rounded">置顶</span>
+                                        <a href="#" class="text-sm text-gray-500 hover:text-primary">前端开发</a>
+                                    </div>
+                                    <h3 class="text-xl md:text-2xl font-bold mb-3 hover:text-primary transition-colors">
+                                        <a href="#">2025年前端工程化实践指南：从开发到部署的全流程优化</a>
+                                    </h3>
+                                    <p class="text-gray-600 mb-4 line-clamp-2">
+                                        本文详细介绍了2025年主流的前端工程化解决方案，包括模块化开发、自动化构建、CI/CD流程搭建以及性能优化策略，帮助前端开发者提升开发效率和项目质量。
+                                    </p>
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex items-center gap-4 text-sm text-gray-500">
+                                            <span class="flex items-center gap-1">
+                                                <i class="fas fa-calendar-alt"></i> 2025-12-05
+                                            </span>
+                                            <span class="flex items-center gap-1">
+                                                <i class="fas fa-eye"></i> 1289
+                                            </span>
+                                        </div>
+                                        <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">
+                                            阅读全文 <i class="fas fa-arrow-right text-xs"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        
+                        <!-- 文章卡片1 -->
+                        <article class="blog-card">
+                            <div class="md:flex">
+                                <div class="md:w-2/5">
+                                    <img src="https://picsum.photos/800/500?random=2" alt="JavaScript性能优化" class="w-full h-60 md:h-full object-cover">
+                                </div>
+                                <div class="p-6 md:w-3/5">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <a href="#" class="text-sm text-gray-500 hover:text-primary">JavaScript</a>
+                                    </div>
+                                    <h3 class="text-xl md:text-2xl font-bold mb-3 hover:text-primary transition-colors">
+                                        <a href="#">JavaScript性能优化：10个提升Web应用速度的实用技巧</a>
+                                    </h3>
+                                    <p class="text-gray-600 mb-4 line-clamp-2">
+                                        随着Web应用复杂度的提升，JavaScript性能优化变得尤为重要。本文总结了10个实战性强的优化技巧，涵盖代码层面、运行时优化和资源加载策略，让你的应用更流畅。
+                                    </p>
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex items-center gap-4 text-sm text-gray-500">
+                                            <span class="flex items-center gap-1">
+                                                <i class="fas fa-calendar-alt"></i> 2025-12-01
+                                            </span>
+                                            <span class="flex items-center gap-1">
+                                                <i class="fas fa-eye"></i> 956
+                                            </span>
+                                        </div>
+                                        <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">
+                                            阅读全文 <i class="fas fa-arrow-right text-xs"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        
+                        <!-- 文章卡片2 -->
+                        <article class="blog-card">
+                            <div class="md:flex">
+                                <div class="md:w-2/5">
+                                    <img src="https://picsum.photos/800/500?random=3" alt="React状态管理" class="w-full h-60 md:h-full object-cover">
+                                </div>
+                                <div class="p-6 md:w-3/5">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <a href="#" class="text-sm text-gray-500 hover:text-primary">React</a>
+                                    </div>
+                                    <h3 class="text-xl md:text-2xl font-bold mb-3 hover:text-primary transition-colors">
+                                        <a href="#">React状态管理对比：Redux vs Context API vs Zustand</a>
+                                    </h3>
+                                    <p class="text-gray-600 mb-4 line-clamp-2">
+                                        React生态中有多种状态管理方案，本文对比分析了Redux、Context API和Zustand三种主流方案的优缺点、适用场景和性能表现，帮助你选择最合适的状态管理方案。
+                                    </p>
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex items-center gap-4 text-sm text-gray-500">
+                                            <span class="flex items-center gap-1">
+                                                <i class="fas fa-calendar-alt"></i> 2025-11-28
+                                            </span>
+                                            <span class="flex items-center gap-1">
+                                                <i class="fas fa-eye"></i> 872
+                                            </span>
+                                        </div>
+                                        <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">
+                                            阅读全文 <i class="fas fa-arrow-right text-xs"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        
+                        <!-- 文章卡片3 -->
+                        <article class="blog-card">
+                            <div class="md:flex">
+                                <div class="md:w-2/5">
+                                    <img src="https://picsum.photos/800/500?random=4" alt="程序员成长" class="w-full h-60 md:h-full object-cover">
+                                </div>
+                                <div class="p-6 md:w-3/5">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <a href="#" class="text-sm text-gray-500 hover:text-primary">职业成长</a>
+                                    </div>
+                                    <h3 class="text-xl md:text-2xl font-bold mb-3 hover:text-primary transition-colors">
+                                        <a href="#">从初级到高级前端工程师：我的5年成长之路</a>
+                                    </h3>
+                                    <p class="text-gray-600 mb-4 line-clamp-2">
+                                        本文分享了我从初级前端工程师成长为高级工程师的5年经验，包括技术学习路径、项目经验积累、软技能提升以及职业规划建议，希望能给同行一些参考。
+                                    </p>
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex items-center gap-4 text-sm text-gray-500">
+                                            <span class="flex items-center gap-1">
+                                                <i class="fas fa-calendar-alt"></i> 2025-11-20
+                                            </span>
+                                            <span class="flex items-center gap-1">
+                                                <i class="fas fa-eye"></i> 1543
+                                            </span>
+                                        </div>
+                                        <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">
+                                            阅读全文 <i class="fas fa-arrow-right text-xs"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    
+                    <!-- 分页 -->
+                    <div class="mt-8 flex justify-center">
+                        <nav class="flex items-center gap-2">
+                            <a href="#" class="px-3 py-2 rounded border border-gray-300 text-gray-600 hover:border-primary hover:text-primary">上一页</a>
+                            <a href="#" class="px-4 py-2 rounded bg-primary text-white">1</a>
+                            <a href="#" class="px-4 py-2 rounded border border-gray-300 text-gray-600 hover:border-primary hover:text-primary">2</a>
+                            <a href="#" class="px-4 py-2 rounded border border-gray-300 text-gray-600 hover:border-primary hover:text-primary">3</a>
+                            <span class="px-2 text-gray-400">...</span>
+                            <a href="#" class="px-4 py-2 rounded border border-gray-300 text-gray-600 hover:border-primary hover:text-primary">8</a>
+                            <a href="#" class="px-3 py-2 rounded border border-gray-300 text-gray-600 hover:border-primary hover:text-primary">下一页</a>
+                        </nav>
+                    </div>
+                </section>
+                
+                <!-- 推荐阅读 -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-bold mb-6">推荐阅读</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <article class="blog-card p-5">
+                            <h3 class="text-lg font-bold mb-2 hover:text-primary transition-colors">
+                                <a href="#">TypeScript完全指南：从入门到精通</a>
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-3 line-clamp-2">
+                                详细讲解TypeScript的核心特性、高级用法和最佳实践，帮助你写出更健壮的前端代码。
+                            </p>
+                            <div class="text-sm text-gray-500">
+                                <span>2025-11-15</span>
+                            </div>
+                        </article>
+                        
+                        <article class="blog-card p-5">
+                            <h3 class="text-lg font-bold mb-2 hover:text-primary transition-colors">
+                                <a href="#">CSS Grid vs Flexbox：何时使用哪种布局</a>
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-3 line-clamp-2">
+                                深入对比CSS Grid和Flexbox两种布局方式的优缺点和适用场景，让你的页面布局更合理。
+                            </p>
+                            <div class="text-sm text-gray-500">
+                                <span>2025-11-10</span>
+                            </div>
+                        </article>
+                        
+                        <article class="blog-card p-5">
+                            <h3 class="text-lg font-bold mb-2 hover:text-primary transition-colors">
+                                <a href="#">Web性能优化实战：核心指标提升指南</a>
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-3 line-clamp-2">
+                                基于Core Web Vitals的性能优化实战，包含具体的优化方法和效果验证。
+                            </p>
+                            <div class="text-sm text-gray-500">
+                                <span>2025-11-05</span>
+                            </div>
+                        </article>
+                        
+                        <article class="blog-card p-5">
+                            <h3 class="text-lg font-bold mb-2 hover:text-primary transition-colors">
+                                <a href="#">从零搭建个人博客：技术选型与踩坑记录</a>
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-3 line-clamp-2">
+                                分享我搭建个人博客的全过程，包括技术栈选择、开发过程中的问题和解决方案。
+                            </p>
+                            <div class="text-sm text-gray-500">
+                                <span>2025-11-01</span>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            </div>
+            
+            <!-- 侧边栏 -->
+            <div class="lg:w-1/4">
+                <!-- 博主信息 -->
+                <aside id="about" class="blog-card mb-6">
+                    <div class="p-6 text-center">
+                        <img src="https://picsum.photos/200/200?random=10" alt="博主头像" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-white shadow-md">
+                        <h3 class="text-xl font-bold mb-2">林小码</h3>
+                        <p class="text-gray-600 mb-4">前端工程师 | 技术分享者 | 终身学习者</p>
+                        <p class="text-gray-500 text-sm mb-6">
+                            专注于前端开发与用户体验，热爱分享技术与生活感悟，希望用文字和代码记录成长。
+                        </p>
+                        <div class="flex justify-center gap-4">
+                            <a href="#" class="text-gray-500 hover:text-primary text-xl transition-colors">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="#" class="text-gray-500 hover:text-primary text-xl transition-colors">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="text-gray-500 hover:text-primary text-xl transition-colors">
+                                <i class="fab fa-weixin"></i>
+                            </a>
+                            <a href="#" class="text-gray-500 hover:text-primary text-xl transition-colors">
+                                <i class="fab fa-zhihu"></i>
+                            </a>
+                        </div>
+                    </div>
+                </aside>
+                
+                <!-- 搜索框 -->
+                <aside class="blog-card mb-6">
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-4">搜索文章</h3>
+                        <div class="relative">
+                            <input type="text" placeholder="输入关键词搜索..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                            <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-primary">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </aside>
+                
+                <!-- 文章分类 -->
+                <aside id="categories" class="blog-card mb-6">
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-4">文章分类</h3>
+                        <ul class="space-y-2">
+                            <li>
+                                <a href="#" class="flex justify-between items-center py-2 border-b border-gray-100 hover:text-primary transition-colors">
+                                    <span class="flex items-center gap-2">
+                                        <i class="fas fa-code text-primary/70"></i>
+                                        前端开发
+                                    </span>
+                                    <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full text-xs">28</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="flex justify-between items-center py-2 border-b border-gray-100 hover:text-primary transition-colors">
+                                    <span class="flex items-center gap-2">
+                                        <i class="fas fa-laptop-code text-primary/70"></i>
+                                        后端技术
+                                    </span>
+                                    <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full text-xs">15</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="flex justify-between items-center py-2 border-b border-gray-100 hover:text-primary transition-colors">
+                                    <span class="flex items-center gap-2">
+                                        <i class="fas fa-lightbulb text-primary/70"></i>
+                                        技术思考
+                                    </span>
+                                    <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full text-xs">12</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="flex justify-between items-center py-2 border-b border-gray-100 hover:text-primary transition-colors">
+                                    <span class="flex items-center gap-2">
+                                        <i class="fas fa-user-tie text-primary/70"></i>
+                                        职业成长
+                                    </span>
+                                    <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full text-xs">9</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="flex justify-between items-center py-2 hover:text-primary transition-colors">
+                                    <span class="flex items-center gap-2">
+                                        <i class="fas fa-coffee text-primary/70"></i>
+                                        生活随笔
+                                    </span>
+                                    <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full text-xs">21</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+                
+                <!-- 标签云 -->
+                <aside class="blog-card mb-6">
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-4">标签云</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-primary hover:text-white transition-colors">JavaScript</a>
+                            <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-primary hover:text-white transition-colors">React</a>
+                            <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-primary hover:text-white transition-colors">Vue</a>
+                            <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-primary hover:text-white transition-colors">CSS</a>
+                            <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-primary hover:text-white transition-colors">HTML</a>
+                            <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-primary hover:text-white transition-colors">TypeScript</a>
+                            <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-primary hover:text-white transition-colors">性能优化</a>
+                            <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-primary hover:text-white transition-colors">前端工程化</a>
+                            <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-primary hover:text-white transition-colors">面试</a>
+                            <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-primary hover:text-white transition-colors">职业规划</a>
+                        </div>
+                    </div>
+                </aside>
+                
+                <!-- 热门文章 -->
+                <aside class="blog-card">
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-4">热门文章</h3>
+                        <ul class="space-y-4">
+                            <li class="flex gap-3">
+                                <img src="https://picsum.photos/100/100?random=20" alt="热门文章1" class="w-16 h-16 rounded object-cover flex-shrink-0">
+                                <div>
+                                    <a href="#" class="text-sm font-medium hover:text-primary transition-colors line-clamp-2">
+                                        2025年前端面试题汇总：涵盖基础、框架、工程化
+                                    </a>
+                                    <p class="text-xs text-gray-500 mt-1">
+                                        阅读量：3.2k
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="flex gap-3">
+                                <img src="https://picsum.photos/100/100?random=21" alt="热门文章2" class="w-16 h-16 rounded object-cover flex-shrink-0">
+                                <div>
+                                    <a href="#" class="text-sm font-medium hover:text-primary transition-colors line-clamp-2">
+                                        从零开始学React：构建完整的电商网站
+                                    </a>
+                                    <p class="text-xs text-gray-500 mt-1">
+                                        阅读量：2.8k
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="flex gap-3">
+                                <img src="https://picsum.photos/100/100?random=22" alt="热门文章3" class="w-16 h-16 rounded object-cover flex-shrink-0">
+                                <div>
+                                    <a href="#" class="text-sm font-medium hover:text-primary transition-colors line-clamp-2">
+                                        CSS高级技巧：打造视觉惊艳的UI效果
+                                    </a>
+                                    <p class="text-xs text-gray-500 mt-1">
+                                        阅读量：2.5k
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- 联系我区域 -->
+    <section id="contact" class="bg-gray-100 py-16">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="max-w-3xl mx-auto text-center mb-10">
+                <h2 class="text-3xl font-bold mb-4">与我联系</h2>
+                <p class="text-gray-600">
+                    如果你有任何问题、建议或合作意向，欢迎通过以下方式联系我
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- 联系信息 -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm">
+                        <h3 class="text-xl font-bold mb-6">联系方式</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start gap-3">
+                                <span class="text-primary text-lg mt-1"><i class="fas fa-envelope"></i></span>
+                                <div>
+                                    <h4 class="font-medium">邮箱</h4>
+                                    <p class="text-gray-600">contact@linjiannote.com</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-primary text-lg mt-1"><i class="fas fa-wechat"></i></span>
+                                <div>
+                                    <h4 class="font-medium">微信</h4>
+                                    <p class="text-gray-600">linjiannote_2025</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-primary text-lg mt-1"><i class="fas fa-map-marker-alt"></i></span>
+                                <div>
+                                    <h4 class="font-medium">城市</h4>
+                                    <p class="text-gray-600">上海市</p>
+                                </div>
+                            </li>
+                        </ul>
+                        
+                        <div class="mt-8">
+                            <h4 class="font-medium mb-4">社交媒体</h4>
+                            <div class="flex gap-4">
+                                <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition-colors">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition-colors">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition-colors">
+                                    <i class="fab fa-zhihu"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition-colors">
+                                    <i class="fab fa-bilibili"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 联系表单 -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm">
+                        <h3 class="text-xl font-bold mb-6">发送消息</h3>
+                        <form>
+                            <div class="mb-4">
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
+                                <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                            </div>
+                            <div class="mb-4">
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">邮箱</label>
+                                <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                            </div>
+                            <div class="mb-4">
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">消息内容</label>
+                                <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary w-full justify-center">
+                                <i class="fas fa-paper-plane"></i>
+                                发送消息
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-10">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-primary text-2xl"><i class="fas fa-feather-alt"></i></span>
+                        <span class="text-xl font-bold">林间笔记</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        记录技术成长，分享生活感悟，<br>
+                        做一个有温度的技术博主。
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-github text-lg"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter text-lg"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-weixin text-lg"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-zhihu text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+                        <li><a href="#articles" class="text-gray-400 hover:text-white transition-colors">文章列表</a></li>
+                        <li><a href="#categories" class="text-gray-400 hover:text-white transition-colors">分类归档</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">关于我</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors">联系我</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">订阅更新</h3>
+                    <p class="text-gray-400 mb-4">
+                        订阅我的博客更新，及时获取最新文章
+                    </p>
+                    <div class="flex">
+                        <input type="email" placeholder="输入你的邮箱" class="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-l-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-white">
+                        <button class="bg-primary hover:bg-primary/90 px-4 py-2 rounded-r-lg transition-colors">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+                <p>© 2025 林间笔记 版权所有 | 采用 <a href="#" class="text-primary hover:underline">MIT</a> 许可证</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-primary text-white shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:bg-primary/90">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // 移动端菜单切换
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // 返回顶部按钮
+        const backToTopBtn = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.remove('opacity-0', 'invisible');
+                backToTopBtn.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopBtn.classList.add('opacity-0', 'invisible');
+                backToTopBtn.classList.remove('opacity-100', 'visible');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // 关闭移动端菜单
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
