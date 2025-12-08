@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能气象监测系统</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <!-- 引入 Font Awesome 图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 自定义 Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#36CFC9',
+                        warning: '#FF7D00',
+                        danger: '#F53F3F',
+                        dark: '#1D2129',
+                        light: '#F2F3F5'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .card-shadow {
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            }
+            .gradient-bg {
+                background: linear-gradient(135deg, #165DFF 0%, #36CFC9 100%);
+            }
+            .metric-card {
+                @apply bg-white rounded-xl p-4 card-shadow transition-all hover:shadow-lg;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-dark">
+    <!-- 顶部导航栏 -->
+    <header class="gradient-bg text-white shadow-md sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center mb-3 md:mb-0">
+                <i class="fas fa-cloud-sun text-2xl mr-3"></i>
+                <h1 class="text-xl md:text-2xl font-bold">智能气象监测系统</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center">
+                    <i class="fas fa-map-marker-alt mr-2"></i>
+                    <select class="bg-white/20 text-white rounded-lg px-3 py-1 border-0 focus:outline-none focus:ring-2 focus:ring-white/50">
+                        <option>北京市</option>
+                        <option>上海市</option>
+                        <option>广州市</option>
+                        <option>深圳市</option>
+                    </select>
+                </div>
+                <div class="hidden md:block text-sm">
+                    <span id="current-time">2025-12-08 10:00:00</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-6">
+        <!-- 实时气象概览 -->
+        <section class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-dark">实时气象数据</h2>
+                <button class="bg-primary/10 text-primary px-3 py-1 rounded-lg text-sm flex items-center">
+                    <i class="fas fa-sync-alt mr-1"></i> 刷新数据
+                </button>
+            </div>
+            
+            <!-- 气象指标卡片 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <!-- 温度卡片 -->
+                <div class="metric-card">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-sm text-gray-500 font-medium">当前温度</h3>
+                        <i class="fas fa-thermometer-half text-primary text-lg"></i>
+                    </div>
+                    <div class="flex items-end">
+                        <span class="text-3xl font-bold">18.5</span>
+                        <span class="text-lg text-gray-500 ml-1">°C</span>
+                    </div>
+                    <div class="mt-2 text-xs flex items-center">
+                        <span class="text-green-500 flex items-center"><i class="fas fa-arrow-up mr-1"></i> 0.8°C</span>
+                        <span class="text-gray-400 ml-2">较昨日</span>
+                    </div>
+                </div>
+                
+                <!-- 湿度卡片 -->
+                <div class="metric-card">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-sm text-gray-500 font-medium">相对湿度</h3>
+                        <i class="fas fa-tint text-secondary text-lg"></i>
+                    </div>
+                    <div class="flex items-end">
+                        <span class="text-3xl font-bold">65</span>
+                        <span class="text-lg text-gray-500 ml-1">%</span>
+                    </div>
+                    <div class="mt-2 text-xs flex items-center">
+                        <span class="text-red-500 flex items-center"><i class="fas fa-arrow-down mr-1"></i> 3%</span>
+                        <span class="text-gray-400 ml-2">较昨日</span>
+                    </div>
+                </div>
+                
+                <!-- 风速卡片 -->
+                <div class="metric-card">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-sm text-gray-500 font-medium">风速</h3>
+                        <i class="fas fa-wind text-warning text-lg"></i>
+                    </div>
+                    <div class="flex items-end">
+                        <span class="text-3xl font-bold">2.3</span>
+                        <span class="text-lg text-gray-500 ml-1">m/s</span>
+                    </div>
+                    <div class="mt-2 text-xs flex items-center">
+                        <span class="text-green-500 flex items-center"><i class="fas fa-arrow-up mr-1"></i> 0.5m/s</span>
+                        <span class="text-gray-400 ml-2">较昨日</span>
+                    </div>
+                </div>
+                
+                <!-- 气压卡片 -->
+                <div class="metric-card">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-sm text-gray-500 font-medium">大气压力</h3>
+                        <i class="fas fa-compress text-danger text-lg"></i>
+                    </div>
+                    <div class="flex items-end">
+                        <span class="text-3xl font-bold">1012</span>
+                        <span class="text-lg text-gray-500 ml-1">hPa</span>
+                    </div>
+                    <div class="mt-2 text-xs flex items-center">
+                        <span class="text-gray-500 flex items-center"><i class="fas fa-minus mr-1"></i> 0</span>
+                        <span class="text-gray-400 ml-2">较昨日</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 气象趋势图表 -->
+            <div class="bg-white rounded-xl p-4 card-shadow mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-lg">24小时气象趋势</h3>
+                    <div class="flex space-x-2">
+                        <button class="px-3 py-1 text-sm bg-primary/10 text-primary rounded-lg">温度</button>
+                        <button class="px-3 py-1 text-sm bg-gray-100 text-gray-500 rounded-lg">湿度</button>
+                        <button class="px-3 py-1 text-sm bg-gray-100 text-gray-500 rounded-lg">风速</button>
+                    </div>
+                </div>
+                <div class="h-64">
+                    <canvas id="weatherChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 未来天气预报 -->
+        <section class="mb-8">
+            <h2 class="text-xl font-bold text-dark mb-4">未来7天预报</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+                <!-- 每日预报卡片 -->
+                <div class="bg-white rounded-xl p-3 card-shadow text-center">
+                    <p class="text-sm font-medium text-gray-500">今天</p>
+                    <div class="my-2">
+                        <i class="fas fa-sun text-warning text-2xl"></i>
+                    </div>
+                    <div class="flex justify-center items-center">
+                        <span class="font-bold">20°</span>
+                        <span class="text-gray-400 text-sm mx-1">/</span>
+                        <span class="text-gray-500 text-sm">16°</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">微风 2级</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-3 card-shadow text-center">
+                    <p class="text-sm font-medium text-gray-500">明天</p>
+                    <div class="my-2">
+                        <i class="fas fa-cloud-sun text-warning/80 text-2xl"></i>
+                    </div>
+                    <div class="flex justify-center items-center">
+                        <span class="font-bold">19°</span>
+                        <span class="text-gray-400 text-sm mx-1">/</span>
+                        <span class="text-gray-500 text-sm">15°</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">微风 2级</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-3 card-shadow text-center">
+                    <p class="text-sm font-medium text-gray-500">周三</p>
+                    <div class="my-2">
+                        <i class="fas fa-cloud-rain text-secondary text-2xl"></i>
+                    </div>
+                    <div class="flex justify-center items-center">
+                        <span class="font-bold">17°</span>
+                        <span class="text-gray-400 text-sm mx-1">/</span>
+                        <span class="text-gray-500 text-sm">14°</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">小雨 3级</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-3 card-shadow text-center">
+                    <p class="text-sm font-medium text-gray-500">周四</p>
+                    <div class="my-2">
+                        <i class="fas fa-cloud text-gray-400 text-2xl"></i>
+                    </div>
+                    <div class="flex justify-center items-center">
+                        <span class="font-bold">18°</span>
+                        <span class="text-gray-400 text-sm mx-1">/</span>
+                        <span class="text-gray-500 text-sm">15°</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">多云 2级</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-3 card-shadow text-center">
+                    <p class="text-sm font-medium text-gray-500">周五</p>
+                    <div class="my-2">
+                        <i class="fas fa-sun text-warning text-2xl"></i>
+                    </div>
+                    <div class="flex justify-center items-center">
+                        <span class="font-bold">21°</span>
+                        <span class="text-gray-400 text-sm mx-1">/</span>
+                        <span class="text-gray-500 text-sm">17°</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">晴天 1级</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-3 card-shadow text-center">
+                    <p class="text-sm font-medium text-gray-500">周六</p>
+                    <div class="my-2">
+                        <i class="fas fa-sun text-warning text-2xl"></i>
+                    </div>
+                    <div class="flex justify-center items-center">
+                        <span class="font-bold">22°</span>
+                        <span class="text-gray-400 text-sm mx-1">/</span>
+                        <span class="text-gray-500 text-sm">18°</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">晴天 2级</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-3 card-shadow text-center">
+                    <p class="text-sm font-medium text-gray-500">周日</p>
+                    <div class="my-2">
+                        <i class="fas fa-cloud-sun text-warning/80 text-2xl"></i>
+                    </div>
+                    <div class="flex justify-center items-center">
+                        <span class="font-bold">20°</span>
+                        <span class="text-gray-400 text-sm mx-1">/</span>
+                        <span class="text-gray-500 text-sm">17°</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">多云 2级</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 气象预警和空气质量 -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <!-- 气象预警 -->
+            <div class="lg:col-span-1 bg-white rounded-xl p-4 card-shadow">
+                <h2 class="text-lg font-bold mb-3 flex items-center">
+                    <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
+                    气象预警
+                </h2>
+                <div class="border border-gray-100 rounded-lg p-3 bg-warning/5">
+                    <div class="flex items-start">
+                        <div class="bg-warning/20 text-warning rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fas fa-wind"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium">大风蓝色预警</h3>
+                            <p class="text-sm text-gray-500 mt-1">预计今晚至明天上午，将出现4-5级大风，阵风可达6级，请做好防范。</p>
+                            <p class="text-xs text-gray-400 mt-2">发布时间：2025-12-08 09:30</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 text-sm text-primary flex items-center cursor-pointer">
+                    <span>查看全部预警</span>
+                    <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                </div>
+            </div>
+            
+            <!-- 空气质量 -->
+            <div class="lg:col-span-2 bg-white rounded-xl p-4 card-shadow">
+                <h2 class="text-lg font-bold mb-3 flex items-center">
+                    <i class="fas fa-leaf text-green-500 mr-2"></i>
+                    空气质量指数 (AQI)
+                </h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div class="bg-gray-50 rounded-lg p-3 text-center">
+                        <p class="text-xs text-gray-500 mb-1">AQI指数</p>
+                        <div class="flex justify-center items-center">
+                            <span class="text-2xl font-bold text-green-500">58</span>
+                            <span class="text-xs text-green-500 ml-1 bg-green-100 px-1 rounded">良</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-lg p-3 text-center">
+                        <p class="text-xs text-gray-500 mb-1">PM2.5</p>
+                        <div class="flex justify-center items-center">
+                            <span class="text-2xl font-bold">32</span>
+                            <span class="text-xs text-gray-500 ml-1">μg/m³</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-lg p-3 text-center">
+                        <p class="text-xs text-gray-500 mb-1">PM10</p>
+                        <div class="flex justify-center items-center">
+                            <span class="text-2xl font-bold">65</span>
+                            <span class="text-xs text-gray-500 ml-1">μg/m³</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-lg p-3 text-center">
+                        <p class="text-xs text-gray-500 mb-1">O₃</p>
+                        <div class="flex justify-center items-center">
+                            <span class="text-2xl font-bold">89</span>
+                            <span class="text-xs text-gray-500 ml-1">μg/m³</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 h-16">
+                    <canvas id="aqiChart"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-dark text-white py-6 mt-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <h3 class="text-lg font-bold mb-3">智能气象监测系统</h3>
+                    <p class="text-gray-400 text-sm">提供精准、实时的气象数据监测与分析服务，助力气象预警和决策支持。</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-3">联系方式</h3>
+                    <ul class="text-gray-400 text-sm space-y-2">
+                        <li class="flex items-center"><i class="fas fa-phone mr-2"></i> 400-123-4567</li>
+                        <li class="flex items-center"><i class="fas fa-envelope mr-2"></i> service@weather-monitor.com</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-3">数据更新</h3>
+                    <p class="text-gray-400 text-sm">实时数据每10分钟更新一次</p>
+                    <p class="text-gray-400 text-sm mt-2">预报数据每日06:00更新</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-500 text-sm">
+                © 2025 智能气象监测系统 版权所有
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 更新当前时间
+        function updateCurrentTime() {
+            const now = new Date();
+            const formattedTime = now.toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            }).replace(/\//g, '-');
+            document.getElementById('current-time').textContent = formattedTime;
+        }
+        
+        // 初始化时间并定时更新
+        updateCurrentTime();
+        setInterval(updateCurrentTime, 1000);
+        
+        // 初始化温度趋势图表
+        const weatherChartCtx = document.getElementById('weatherChart').getContext('2d');
+        const weatherChart = new Chart(weatherChartCtx, {
+            type: 'line',
+            data: {
+                labels: ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'],
+                datasets: [{
+                    label: '温度 (°C)',
+                    data: [15.2, 14.8, 14.5, 16.3, 18.5, 19.2, 18.8, 17.5],
+                    borderColor: '#165DFF',
+                    backgroundColor: 'rgba(22, 93, 255, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#165DFF',
+                    pointRadius: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+        
+        // 初始化AQI图表
+        const aqiChartCtx = document.getElementById('aqiChart').getContext('2d');
+        const aqiChart = new Chart(aqiChartCtx, {
+            type: 'bar',
+            data: {
+                labels: ['PM2.5', 'PM10', 'O₃', 'SO₂', 'NO₂', 'CO'],
+                datasets: [{
+                    label: '空气质量指标',
+                    data: [32, 65, 89, 12, 28, 0.8],
+                    backgroundColor: [
+                        'rgba(72, 187, 120, 0.7)',
+                        'rgba(72, 187, 120, 0.7)',
+                        'rgba(250, 173, 20, 0.7)',
+                        'rgba(72, 187, 120, 0.7)',
+                        'rgba(72, 187, 120, 0.7)',
+                        'rgba(72, 187, 120, 0.7)'
+                    ],
+                    borderWidth: 0,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        display: false
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
