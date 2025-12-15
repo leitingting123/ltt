@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>雷停停 - 个人博客</title>
+    <link rel="stylesheet" href="ltt.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 雪花容器 -->
+    <div id="snow-container"></div>
+    
+    <!-- 导航栏 -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-snowflake"></i>
+                <span>雷停停的博客</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link active">首页</a>
+                <a href="#about" class="nav-link">关于我</a>
+                <a href="#skills" class="nav-link">技能特长</a>
+                <a href="#hobbies" class="nav-link">兴趣爱好</a>
+                <a href="#contact" class="nav-link">联系我</a>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- 主内容区 -->
+    <main>
+        <!-- 首页部分 -->
+        <section id="home" class="hero-section">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">你好，我是 <span class="highlight">雷停停 <br>欢迎来到我的个人博客</span></h1>
+                    <p class="hero-subtitle">数据科学与大数据技术专业学生</p>
+                    <div class="hero-info">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>贵州中医药大学时珍学院</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-user-graduate"></i>
+                            <span>2023级1班 <br>
+                             学号: 23170401032</span>
+                        </div>
+                    </div>
+                    <div class="hero-buttons">
+                        <a href="#about" class="btn btn-primary">了解更多</a>
+                        <button class="btn btn-secondary" onclick="toggleSnow()">
+                            <i class="fas fa-snowflake"></i>
+                            <span>切换雪花</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 头像区域 -->
+                <div class="hero-avatar">
+                    <div class="avatar-container">
+                        <!-- 这里是头像位置，请将您的照片命名为 avatar.jpg 放入 images 文件夹 -->
+                        <!-- 或者修改下面的src路径指向您的照片 -->
+                        <img src="1.jpg" alt="雷停停的头像" class="avatar" id="avatar">
+                        <div class="avatar-frame"></div>
+                        <div class="avatar-info">
+                            <h3>雷停停</h3>
+                            <p>2003年12月出生</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="scroll-indicator">
+                <div class="mouse">
+                    <div class="wheel"></div>
+                </div>
+                <span>向下滚动</span>
+            </div>
+        </section>
+
+        <!-- 关于我部分 -->
+        <section id="about" class="section">
+            <h2 class="section-title">关于我</h2>
+            <div class="about-content">
+                <div class="about-card">
+                    <h3><i class="fas fa-user"></i> 个人信息</h3>
+                    <div class="info-list">
+                        <div class="info-row">
+                            <span class="info-label">姓名：</span>
+                            <span class="info-value">雷停停</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">出生年月：</span>
+                            <span class="info-value">2003年12月</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">学号：</span>
+                            <span class="info-value">23170401032</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">学校：</span>
+                            <span class="info-value">贵州中医药大学时珍学院</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">专业：</span>
+                            <span class="info-value">数据科学与大数据技术</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">班级：</span>
+                            <span class="info-value">2023级1班</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-card">
+                    <h3><i class="fas fa-file-alt"></i> 自我简介</h3>
+                    <div class="intro-content">
+                        <p>大家好，我叫雷停停，是一名大数据专业的在读学生。课堂与实验室里，我是和代码、算法、海量数据打交道的“数据控”，热衷于从纷繁复杂的数字中挖掘规律、拆解问题，享受用逻辑和模型找到解决方案的成就感。而走出校园，我有两个最离不开的爱好——旅行和追剧。</p>
+                        <p>我喜欢背着背包奔赴不同的城市与山野，看江南水乡的烟雨、西北戈壁的落日，收集各地的风土人情与烟火气息，让脚步去丈量世界的广阔。也爱窝在舒适的角落沉浸式追剧，在悬疑剧的烧脑反转里过足瘾，在治愈系的生活剧里感受温暖，从别人的故事里汲取不一样的人生感悟。</p>
+                        <p>对我而言，大数据教会我理性地分析与思考，旅行和追剧则赋予我感性地体验与共情。理性与感性的碰撞，让我的生活既充实又有趣。很期待能和志同道合的朋友们一起聊数据、唠剧集、约旅行！</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 技能特长部分 -->
+        <section id="skills" class="section">
+            <h2 class="section-title">技能特长</h2>
+            <div class="skills-content">
+                <div class="skill-category">
+                    <h3><i class="fas fa-laptop-code"></i> 技术技能</h3>
+                    <div class="skill-list">
+                        <div class="skill-item">
+                            <div class="skill-name">Python编程</div>
+                            <div class="skill-bar">
+                                <div class="skill-level" style="width: 85%"></div>
+                            </div>
+                            <div class="skill-percent">85%</div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">Java开发</div>
+                            <div class="skill-bar">
+                                <div class="skill-level" style="width: 75%"></div>
+                            </div>
+                            <div class="skill-percent">75%</div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">HTML/CSS/JS</div>
+                            <div class="skill-bar">
+                                <div class="skill-level" style="width: 80%"></div>
+                            </div>
+                            <div class="skill-percent">80%</div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">数据分析</div>
+                            <div class="skill-bar">
+                                <div class="skill-level" style="width: 70%"></div>
+                            </div>
+                            <div class="skill-percent">70%</div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">数据库管理</div>
+                            <div class="skill-bar">
+                                <div class="skill-level" style="width: 65%"></div>
+                            </div>
+                            <div class="skill-percent">65%</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3><i class="fas fa-star"></i> 个人特长</h3>
+                    <div class="talent-grid">
+                        <div class="talent-item">
+                            <div class="talent-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h4>逻辑思维</h4>
+                            <p>善于分析问题，逻辑清晰</p>
+                        </div>
+                        <div class="talent-item">
+                            <div class="talent-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h4>数据分析</h4>
+                            <p>能够从数据中发现规律</p>
+                        </div>
+                        <div class="talent-item">
+                            <div class="talent-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h4>团队协作</h4>
+                            <p>良好的沟通和协作能力</p>
+                        </div>
+                        <div class="talent-item">
+                            <div class="talent-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h4>创新思维</h4>
+                            <p>善于提出创新解决方案</p>
+                        </div>
+                        <div class="talent-item">
+                            <div class="talent-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <h4>快速学习</h4>
+                            <p>能够快速掌握新知识</p>
+                        </div>
+                        <div class="talent-item">
+                            <div class="talent-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h4>沟通表达</h4>
+                            <p>清晰表达复杂概念</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 兴趣爱好部分 -->
+        <section id="hobbies" class="section">
+            <h2 class="section-title">兴趣爱好</h2>
+            <div class="hobbies-content">
+                <div class="hobby-card" onmouseenter="animateCard(this)" onmouseleave="resetCard(this)">
+                    <div class="hobby-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>旅游</h3>
+                    <p>生活中，我喜欢旅行看遍山川，爱背着包奔赴山海，看不同城市的日出日落、烟火人间。</p>
+                </div>
+                
+                <div class="hobby-card" onmouseenter="animateCard(this)" onmouseleave="resetCard(this)">
+                    <div class="hobby-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>阅读学习</h3>
+                    <p>喜欢阅读技术书籍和科幻小说，不断扩展知识领域。</p>
+                </div>
+                
+                <div class="hobby-card" onmouseenter="animateCard(this)" onmouseleave="resetCard(this)">
+                    <div class="hobby-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3>音乐欣赏</h3>
+                    <p>喜欢听各种类型的音乐，特别是轻音乐和流行音乐。</p>
+                </div>
+                
+                <div class="hobby-card" onmouseenter="animateCard(this)" onmouseleave="resetCard(this)">
+                    <div class="hobby-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3>追剧</h3>
+                    <p>在剧情里体验不一样的人生。期待和同频的小伙伴一起唠剧、聊数据、约旅行！</p>
+                </div>
+                
+                <div class="hobby-card" onmouseenter="animateCard(this)" onmouseleave="resetCard(this)">
+                    <div class="hobby-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>美食探索</h3>
+                    <p>喜欢尝试不同地方的美食，探索各种口味和文化。</p>
+                </div>
+                
+                <div class="hobby-card" onmouseenter="animateCard(this)" onmouseleave="resetCard(this)">
+                    <div class="hobby-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>游戏</h3>
+                    <p>偶尔玩策略类和益智类游戏，放松心情锻炼思维。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 联系我部分 -->
+        <section id="contact" class="section">
+            <h2 class="section-title">联系我</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>电子邮件</h3>
+                            <p>23170401032@example.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-school"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>学校</h3>
+                            <p>贵州中医药大学时珍学院</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>地址</h3>
+                            <p>贵州省贵阳市</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>给我留言</h3>
+                    <form id="messageForm">
+                        <div class="form-group">
+                            <input type="text" placeholder="您的姓名" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="您的邮箱" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="您的消息..." rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>发送消息</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-snowflake"></i>
+                <span>雷停停的个人博客</span>
+            </div>
+            
+            <div class="footer-info">
+                <p>数据科学与大数据技术专业 | 2023级1班 | 学号: 23170401032</p>
+                <p>贵州中医药大学时珍学院</p>
+            </div>
+            
+            <div class="footer-social">
+                <a href="#" class="social-link">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#" class="social-link">
+                    <i class="fab fa-weixin"></i>
+                </a>
+                <a href="#" class="social-link">
+                    <i class="fab fa-qq"></i>
+                </a>
+                <a href="#" class="social-link">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 雷停停. 保留所有权利.</p>
+                <p id="current-time"></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
